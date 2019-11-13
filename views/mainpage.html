@@ -1,0 +1,39 @@
+<html>
+<head></head>
+<body>
+  <h2><a href="/quiz" onclick="startTotalForSession()">Go to Quiz!</a></h2>
+  <h2><a href="/addQuestions" id="aAddQuestionlink">Add Questions</a></h2>
+  </body>
+  <script>
+    activeuser=getActiveUser();
+    function getActiveUser()
+    {
+      if(!localStorage.activeuser)
+      {
+        localStorage.activeuser=JSON.stringify("");
+      }
+        return JSON.parse(localStorage.activeuser);
+    }
+    if(activeuser!="admin")
+    {
+      document.getElementById("aAddQuestionlink").style.visibility="hidden";
+    }
+    function startTotalForSession()
+    {
+      var xhttp=new XMLHttpRequest();
+      xhttp.open('POST','/startTotalForSession',true);
+      xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhttp.onreadystatechange==function()
+      {
+        if(xhttp.readyState==4 && xhttp.status==200)
+        {
+          window.location='/quiz';
+        }
+        else {
+          console.log(xhttp.status);
+        }
+      }
+      xhttp.send('user='+activeuser);
+    }
+    </script>
+  </html>

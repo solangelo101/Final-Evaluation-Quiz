@@ -1,3 +1,4 @@
+var ahttp=new XMLHttpRequest();
 var divAddQuestion=document.getElementById("divAddQuestion");
 var aAddNewQuestion=document.getElementById("aAddNewQuestion");
 var start=0;
@@ -355,6 +356,7 @@ function addToDOM(objectQuestion){
 
   btnEdit.addEventListener("click",function(event)
   {
+    var xhttp=new XMLHttpRequest();
     xhttp.open('GET','/getToBeEditedQuestion?number='+btnEdit.id);
   xhttp.send();
     xhttp.onreadystatechange=function()
@@ -372,19 +374,182 @@ function addToDOM(objectQuestion){
           // An error occurred during the request.
          console.log(xhttp.status) ;
       }
-    };*/
+    };
   });
   btnDelete.addEventListener("click",function(event)
   {
-  /*  http.open("POST",'/deleteQuestion',true);
+    var http=new XMLHttpRequest();
+    http.open("POST",'/deleteQuestion',true);
     http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     http.onreadystatechange = function() {
     if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
       location.reload();
     }
 }
-http.send('number='+objectQuestion._id);*/
+http.send('number='+objectQuestion._id);
 });
-  //unhideAddNewQuestionLink(aAddNewQuestion);
-  //deleteQuestionForm();
+  unhideAddNewQuestionLink(aAddNewQuestion);
+  deleteQuestionForm();
+}
+
+function editQuestion(question)
+{
+  //hideeditNewQuestionLink(aeditNewQuestion);
+  var formeditQuestion=document.createElement("form");
+  formeditQuestion.setAttribute("name","formeditQuestion");
+  //formeditQuestion.setAttribute("action","/editQuestion");
+  //formeditQuestion.setAttribute("method","POST");
+
+  var labeleditQuestion=document.createElement("label");
+  labeleditQuestion.innerHTML="Enter Topic";
+  formeditQuestion.appendChild(labeleditQuestion);
+
+  addSpace(formeditQuestion,2);
+
+  var inputQuestionTopic=document.createElement("input");
+  inputQuestionTopic.setAttribute("name","topic");
+  inputQuestionTopic.setAttribute("type","text");
+  inputQuestionTopic.setAttribute("value",question.Topic);
+  inputQuestionTopic.setAttribute("placeholder","Enter Question Topic");
+  inputQuestionTopic.setAttribute("style","width:40%");
+  formeditQuestion.appendChild(inputQuestionTopic);
+
+  addSpace(formeditQuestion,2);
+
+  var labelQuestionDescp=document.createElement("label");
+  labelQuestionDescp.innerHTML="Question Description";
+  formeditQuestion.appendChild(labelQuestionDescp);
+
+  addSpace(formeditQuestion,2);
+
+  var inputQuestionDescp=document.createElement("textarea");
+  inputQuestionDescp.setAttribute("name","Descp");
+  inputQuestionDescp.setAttribute("type","text");
+  inputQuestionDescp.innerHTML=question.Description;
+  inputQuestionDescp.setAttribute("placeholder","Enter Question description");
+  inputQuestionDescp.setAttribute("style","width:40%");
+  formeditQuestion.appendChild(inputQuestionDescp);
+
+  addSpace(formeditQuestion,2);
+
+  var labelQuestionOption1=document.createElement("label");
+  labelQuestionOption1.innerHTML="Question option 1";
+  formeditQuestion.appendChild(labelQuestionOption1);
+
+  addSpace(formeditQuestion,2);
+
+  var inputQuestionOption1=document.createElement("input");
+  inputQuestionOption1.setAttribute("name","Option1");
+  inputQuestionOption1.setAttribute("type","text");
+  inputQuestionOption1.setAttribute("value",question.Option1);
+  inputQuestionOption1.setAttribute("placeholder","Enter Question option 1");
+  inputQuestionOption1.setAttribute("style","width:40%");
+  formeditQuestion.appendChild(inputQuestionOption1);
+
+  addSpace(formeditQuestion,2);
+
+  var labelQuestionOption2=document.createElement("label");
+  labelQuestionOption2.innerHTML="Question option 2";
+  formeditQuestion.appendChild(labelQuestionOption2);
+
+  addSpace(formeditQuestion,2);
+
+  var inputQuestionOption2=document.createElement("input");
+  inputQuestionOption2.setAttribute("name","Option2");
+  inputQuestionOption2.setAttribute("type","text");
+  inputQuestionOption2.setAttribute("value",question.Option2);
+  inputQuestionOption2.setAttribute("placeholder","Enter Question option 2");
+  inputQuestionOption2.setAttribute("style","width:40%");
+  formeditQuestion.appendChild(inputQuestionOption2);
+
+  addSpace(formeditQuestion,2);
+
+  var labelQuestionOption3=document.createElement("label");
+  labelQuestionOption3.innerHTML="Question option 3";
+  formeditQuestion.appendChild(labelQuestionOption3);
+
+  addSpace(formeditQuestion,2);
+
+  var inputQuestionOption3=document.createElement("input");
+  inputQuestionOption3.setAttribute("name","Option3");
+  inputQuestionOption3.setAttribute("type","text");
+  inputQuestionOption3.setAttribute("value",question.Option3);
+  inputQuestionOption3.setAttribute("placeholder","Enter Question option 3");
+  inputQuestionOption3.setAttribute("style","width:40%");
+  formeditQuestion.appendChild(inputQuestionOption3);
+
+  addSpace(formeditQuestion,2);
+
+  var labelQuestionOption4=document.createElement("label");
+  labelQuestionOption4.innerHTML="Question option 4";
+  formeditQuestion.appendChild(labelQuestionOption4);
+
+  addSpace(formeditQuestion,2);
+
+  var inputQuestionOption4=document.createElement("input");
+  inputQuestionOption4.setAttribute("name","Option4");
+  inputQuestionOption4.setAttribute("type","text");
+  inputQuestionOption4.setAttribute("value",question.Option4);
+  inputQuestionOption4.setAttribute("placeholder","Enter Question option 4");
+  inputQuestionOption4.setAttribute("style","width:40%");
+  formeditQuestion.appendChild(inputQuestionOption4);
+
+  addSpace(formeditQuestion,2);
+
+  var labelQuestionAnswer=document.createElement("label");
+  labelQuestionAnswer.innerHTML="Enter Answer";
+  formeditQuestion.appendChild(labelQuestionAnswer);
+
+  addSpace(formeditQuestion,2);
+
+
+  var inputQuestionAnswer=document.createElement("input");
+  inputQuestionAnswer.setAttribute("name","Answer");
+  inputQuestionAnswer.setAttribute("type","text");
+  inputQuestionAnswer.setAttribute("value",question.Answer);
+  inputQuestionAnswer.setAttribute("style","width:40%");
+  inputQuestionAnswer.setAttribute("placeholder","Enter Question Answer");
+  formeditQuestion.appendChild(inputQuestionAnswer);
+
+  addSpace(formeditQuestion,2);
+
+  var btnSubmit=document.createElement("button");
+  btnSubmit.setAttribute("name","btnSubmit");
+  btnSubmit.setAttribute("style","width:20%;height:25px");
+  btnSubmit.innerHTML="Submit";
+  formeditQuestion.appendChild(btnSubmit);
+
+  var btnCancel=document.createElement("button");
+  btnCancel.setAttribute("name","btnCancel");
+  btnCancel.setAttribute("style","width:20%;height:25px");
+  btnCancel.innerHTML="Cancel";
+  formeditQuestion.appendChild(btnCancel);
+  divAddQuestion.appendChild(formeditQuestion);
+
+  btnSubmit.addEventListener("click",function(event)
+  {
+    var num=question._id;
+    var topic=inputQuestionTopic.value;
+    var descp=inputQuestionDescp.value;
+    var option1=inputQuestionOption1.value;
+    var option2=inputQuestionOption2.value;
+    var option3=inputQuestionOption3.value;
+    var option4=inputQuestionOption4.value;
+    var answer=inputQuestionAnswer.value;
+
+    ahttp.open("POST",'/editQuestion',true);
+    ahttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    ahttp.send('number='+num+'&topic='+topic+'&descp='+descp+'&option1='+option1+'&option2='+option2+'&option3='+option3+'&option4='+option4+'&answer='+answer);
+    ahttp.onreadystatechange = function() {
+    if (ahttp.readyState == 4 && ahttp.status == 200) {
+    }
+    }
+location.reload(true) ;
+  });
+
+btnCancel.addEventListener("click",function(event)
+{
+  deleteQuestionForm();
+  //unhideeditNewQuestionLink(aeditNewQuestion);
+});
 }
