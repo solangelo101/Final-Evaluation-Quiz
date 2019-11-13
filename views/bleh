@@ -1,0 +1,85 @@
+function addToDOM(objectQuestion){
+  var divQuestionAdded=document.createElement("div");
+    divQuestionAdded.setAttribute("id",objectQuestion._id);
+  //  divQuestionAdded.setAttribute("style","background-color:#ffe6e6;padding:20px;width:100px");
+    var txtQuestionName=document.createElement("p");
+    txtQuestionName.innerHTML=index+".<br><br>"+objectQuestion.Topic;
+    index++;
+
+    var txtQuestionDesc=document.createElement("p");
+    txtQuestionDesc.innerHTML=objectQuestion.Description;
+
+    var radioQuestionOption1=document.createElement("input");
+    radioQuestionOption1.setAttribute("type","radio");
+    radioQuestionOption1.setAttribute("type","radio");
+    radioQuestionOption1.innerHTML=objectQuestion.Option1;
+
+    var radioQuestionOption2=document.createElement("input");
+    radioQuestionOption2.setAttribute("type","radio");
+    radioQuestionOption2.innerHTML=objectQuestion.Option2;
+
+    var radioQuestionOption3=document.createElement("input");
+    radioQuestionOption3.setAttribute("type","radio");
+    radioQuestionOption3.innerHTML=objectQuestion.Option3;
+
+    var radioQuestionOption4=document.createElement("input");
+    radioQuestionOption4.setAttribute("type","radio");
+    radioQuestionOption4.innerHTML=objectQuestion.Option4;
+
+    var txtQuestionQuantity=document.createElement("p");
+    txtQuestionQuantity.innerHTML=objectQuestion.Quantity;
+
+    var btnEdit=document.createElement("button");
+    btnEdit.setAttribute("id",objectQuestion._id);
+    btnEdit.innerHTML="Edit";
+    btnEdit.setAttribute("style","width:70px;height:25px");
+
+    var btnDelete=document.createElement("button");
+    btnDelete.setAttribute("id","btnDelete");
+    btnDelete.innerHTML="Delete";
+    btnDelete.setAttribute("style","width:70px;height:25px");
+
+    divQuestionAdded.appendChild(txtQuestionName);
+    divQuestionAdded.appendChild(txtQuestionDesc);
+    divQuestionAdded.appendChild(txtQuestionPrice);
+    divQuestionAdded.appendChild(txtQuestionQuantity);
+    divQuestionAdded.appendChild(btnEdit);
+    divQuestionAdded.appendChild(btnDelete);
+    divListQuestions.appendChild(divQuestionAdded);
+
+
+  btnEdit.addEventListener("click",function(event)
+  {
+    xhttp.open('GET','/getToBeEditedQuestion?number='+btnEdit.id);
+  xhttp.send();
+    xhttp.onreadystatechange=function()
+  {
+      // readyState 4 means the request is done.
+      // status 200 is a successful return.
+      if (xhttp.readyState == 4 && xhttp.status == 200)
+      {
+        let Question = JSON.parse( xhttp.responseText) ;
+          console.log(Question);
+          editQuestion(Question);
+      }
+      else
+      {
+          // An error occurred during the request.
+         console.log(xhttp.status) ;
+      }
+    };
+  });
+  btnDelete.addEventListener("click",function(event)
+  {
+    http.open("POST",'/deleteQuestion',true);
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    http.onreadystatechange = function() {
+    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+      location.reload();
+    }
+}
+http.send('number='+objectQuestion._id);
+  });
+  unhideAddNewQuestionLink(aAddNewQuestion);
+  deleteQuestionForm();
+}
