@@ -74,9 +74,10 @@ if(start+limit>=count)
 {
   next.disabled=true;
   var endButton=document.createElement('button');
-  endButton.innerHTML="Submit and show marks!";
+  endButton.innerHTML="Show marks!";
+  divnextprev.appendChild(endButton);
   endButton.addEventListener("click",function(event){
-    window.location('/marks');
+    window.location='/scorepage';
   })
 }
 divnextprev.appendChild(next);
@@ -89,7 +90,7 @@ divnextprev.appendChild(next);
 
 function nextFunction()
 {
-start+=5;
+start+=1;
 divsinglequestion.innerHTML="";
 divnextprev.innerHTML="";
 
@@ -181,10 +182,12 @@ function addToDOM(objectQuestion){
       chosen=radioQuestionOption4.value;
     }
     else {
-      alert('Please choose an answer!')
+      alert('Please choose an answer!');
+      return;
     }
     console.log(objectQuestion);
     getQuizId(txtAnswer.id,chosen)
+    btnSubmit.disabled=true;
   //  updateScore(hstart.id,objectQuestion.ans,chosen);
   });
 }
@@ -220,15 +223,18 @@ function getOldScore(id,answer,chosen)
       var oldScore=oldScore1.Score;
       console.log('oldScore1 is ',typeof oldScore1);
       console.log('oldscore is ',oldScore);
-      updateScore(oldScore,answer,chosen);
+      chosenone=chosen;
+      qid=id
+      console.log(chosenone);
+      updateScore(oldScore,id,answer,chosenone);
     }
   }
 }
 
-function updateScore(oldScore,id,answer,chosen)
+function updateScore(oldScore,id,answer,chosenone)
 {
   var score;
-  if(chosen==answer)
+  if(chosenone==answer)
   {
     score=oldScore+1;
   }

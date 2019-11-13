@@ -36,6 +36,10 @@ router.get('/quiz',function(req,res){
   res.sendFile(path.join(__dirname+'/views/quiz.html'));
 });
 
+router.get('/scorepage',function(req,res){
+  res.sendFile(path.join(__dirname+'/views/score.html'));
+});
+
 
 // mongoose connection stuff
 mongoose.connect("mongodb://localhost/quiz_portal",{ useNewUrlParser: true });
@@ -253,6 +257,13 @@ app.post('/updateScore',(req,res)=>{
     }
   })
 })
-
+app.get('/getScore',(req,res)=>
+{
+  console.log('old score query is ',req.query);
+  score.findOne(function(err,docs){
+    console.log('old score docs',docs);
+    res.send(docs);
+  })
+})
 
 app.listen(5554);
