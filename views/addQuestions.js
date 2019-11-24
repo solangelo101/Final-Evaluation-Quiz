@@ -553,3 +553,32 @@ btnCancel.addEventListener("click",function(event)
   //unhideeditNewQuestionLink(aeditNewQuestion);
 });
 }
+
+    var txtWelcome=document.getElementById("txtWelcome");
+    var aLogin=document.getElementById("aLogin");
+    var aLogout=document.getElementById("aLogout");
+    var aRegister=document.getElementById("aRegister");
+    if(activeuser=="")
+    {
+      txtWelcome.innerHTML="Welcome, Guest!";
+      aLogout.style.display="none";
+    }
+    else {
+      //txtWelcome.innerHTML="Welcome, "+activeuser+"!";
+      aLogin.style.display="none";
+      aRegister.style.display="none";
+    }
+    var activeuser=getActiveUser();
+    function getActiveUser()
+    {
+      if(!localStorage.activeuser)
+      {
+        localStorage.activeuser=JSON.stringify("");
+      }
+        return JSON.parse(localStorage.activeuser);
+    }
+
+    function storeActiveUser(activeuser)
+    {
+      localStorage.activeuser=JSON.stringify(activeuser);
+    }

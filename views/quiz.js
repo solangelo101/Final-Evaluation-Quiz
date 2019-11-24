@@ -7,6 +7,16 @@ var divstart=document.getElementById("divstart");
 var hstart=document.createElement("h2");
 divstart.appendChild(hstart);
 
+activeuser=getActiveUser();
+function getActiveUser()
+{
+  if(!localStorage.activeuser)
+  {
+    localStorage.activeuser=JSON.stringify("");
+  }
+    return JSON.parse(localStorage.activeuser);
+}
+
 function getEachQuestion()
 {
   var xhttp=new XMLHttpRequest();
@@ -77,7 +87,7 @@ if(start+limit>=count)
   endButton.innerHTML="Show marks!";
   divnextprev.appendChild(endButton);
   endButton.addEventListener("click",function(event){
-    window.location='/scorepage';
+    showScore();
   })
 }
 divnextprev.appendChild(next);
@@ -87,6 +97,43 @@ divnextprev.appendChild(next);
 {
   next.disabled=true;
 }*/
+
+function showScore()
+{
+  var phttp =new XMLHttpRequest();
+  phttp.open('GET','/getQuizId?user='+activeuser);
+  phttp.send();
+  phttp.onreadystatechange=function()
+  {
+    if(phttp.readyState==4 && phttp.status==200)
+    {
+      var idarr=JSON.parse(phttp.responseText);
+      console.log('quiz id is',idarr);
+      hstart.setAttribute("id",idarr._id);
+      printScore(idarr._id);
+    }
+  }
+}
+var divall=document.getElementById("divall");
+function printScore(id)
+{
+  var yhttp=new XMLHttpRequest();
+  yhttp.open('GET','/getScore?id='+id);
+  yhttp.send();
+  yhttp.onreadystatechange=function()
+  {
+    if(yhttp.readyState==4 && yhttp.status==200)
+    {
+      let finalScore=JSON.parse(yhttp.responseText);
+      theScore=finalScore.Score;
+      divall.innerHTML="Your score is "+theScore+"!<br><br>";
+      let aMainPage=document.createElement("a");
+      aMainPage.setAttribute("href","/mainpage");
+      aMainPage.innerHTML="Go To Main Page";
+      divall.appendChild(aMainPage);
+    }
+  }
+}
 
 function nextFunction()
 {
@@ -195,14 +242,13 @@ function addToDOM(objectQuestion){
 function getQuizId(answer,chosen)
 {
   var xhr =new XMLHttpRequest();
-  xhr.open('GET','/getQuizId');
+  xhr.open('GET','/getQuizId?user='+activeuser);
   xhr.send();
   xhr.onreadystatechange=function()
   {
     if(xhr.readyState==4 && xhr.status==200)
     {
       var idarr=JSON.parse(xhr.responseText);
-      hstart.innerHTML="The Quiz has started!";
       console.log('quiz id is',idarr);
       hstart.setAttribute("id",idarr._id);
       getOldScore(idarr._id,answer,chosen);

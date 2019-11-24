@@ -1,33 +1,53 @@
 <html>
-<head></head>
+<head><link rel="stylesheet" href="commonstyle.css"></head>
 <body>
-  <h2><a href="/quiz" onclick="startTotalForSession()">Go to Quiz!</a></h2>
-  <h2><a href="/addQuestions" id="aAddQuestionlink">Add Questions</a></h2>
+  <div id="menu" >
+    <ul style="background-color:limegreen">
+          <li style="float:left"><a href="/quiz" onclick="startTotalForSession()"id="aQuiz">Go to Quiz!</a></li>
+          <li style="float:left"><a href="/addQuestions" id="aAddQuestionlink">Add Questions</a></li>
+          <li><a href="#" id="aLogout" onclick="userLogout()" style="border-left:2px solid white">Logout</a></li>
+          <li><a href="/login" id="aLogin">Login</a></li>
+          <li><a href="/register" id="aRegister" style="border-left:2px solid white ;">Register</a></li>
+          <li><a id="txtWelcome" style="border-right:0px solid white ;"></a></li>
+      </ul>
+  </div>
   </body>
   <script>
-    activeuser=getActiveUser();
-    function getActiveUser()
+
+  var activeuser=getActiveUser();
+  function getActiveUser()
+  {
+    if(!localStorage.activeuser)
     {
-      if(!localStorage.activeuser)
-      {
-        localStorage.activeuser=JSON.stringify("");
-      }
-        return JSON.parse(localStorage.activeuser);
+      localStorage.activeuser=JSON.stringify("");
     }
-    if(activeuser!="admin")
+      return JSON.parse(localStorage.activeuser);
+  }
+
+  function storeActiveUser(activeuser)
+  {
+    localStorage.activeuser=JSON.stringify(activeuser);
+  }
+   if(activeuser!="admin")
     {
       document.getElementById("aAddQuestionlink").style.visibility="hidden";
     }
+
     function startTotalForSession()
     {
-      var xhttp=new XMLHttpRequest();
+      if(activeuser=="")
+      {
+        alert("Login to Start Quiz!");
+      }
+      else {
+        var xhttp=new XMLHttpRequest();
       xhttp.open('POST','/startTotalForSession',true);
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhttp.onreadystatechange==function()
       {
         if(xhttp.readyState==4 && xhttp.status==200)
         {
-          window.location='/quiz';
+          window.location.href='/quiz';
         }
         else {
           console.log(xhttp.status);
@@ -35,5 +55,31 @@
       }
       xhttp.send('user='+activeuser);
     }
+    }
+
+
+    var txtWelcome=document.getElementById("txtWelcome");
+    var aLogin=document.getElementById("aLogin");
+    var aLogout=document.getElementById("aLogout");
+    var aRegister=document.getElementById("aRegister");
+    var aQuiz=document.getElementById("aQuiz");
+    if(activeuser=="")
+    {
+      txtWelcome.innerHTML="Welcome, Guest!<br>Login to give Quiz";
+      aLogout.style.display="none";
+      aQuiz.style.display="none";
+    }
+    else {
+      txtWelcome.innerHTML="Welcome, "+activeuser+"!";
+      aLogin.style.display="none";
+      aRegister.style.display="none";
+    }
+    function userLogout()
+    {
+      activeuser="";
+      storeActiveUser(activeuser);
+      location.reload();
+    }
+
     </script>
   </html>

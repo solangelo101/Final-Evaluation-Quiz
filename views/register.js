@@ -84,3 +84,28 @@ alogin.innerHTML="Or Login?";
 alogin.setAttribute("href","/login");
 var btnregister=document.getElementById("btnregister");
 divregisterform.appendChild(alogin);
+
+var txtWelcome=document.getElementById("txtWelcome");
+var aLogin=document.getElementById("aLogin");
+var aLogout=document.getElementById("aLogout");
+var aRegister=document.getElementById("aRegister");
+if(activeuser=="")
+{
+  txtWelcome.innerHTML="Welcome, Guest!";
+  aLogout.style.display="none";
+}
+else {
+  txtWelcome.innerHTML="Welcome, "+activeuser+"!";
+  aLogin.style.display="none";
+  aRegister.style.display="none";
+}
+function userLogout()
+{
+  activeuser="";
+  storeActiveUser(activeuser);
+  location.reload();
+}
+if(activeuser!="admin")
+ {
+   document.getElementById("aAddQuestionlink").style.visibility="hidden";
+ }

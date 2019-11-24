@@ -78,3 +78,8 @@ function gotoregister()
   newuser.appendChild(txtregister);
   //newuser.appendChild(aregister);
 }
+
+if(activeuser!="admin")
+ {
+   document.getElementById("aAddQuestionlink").style.visibility="hidden";
+ }

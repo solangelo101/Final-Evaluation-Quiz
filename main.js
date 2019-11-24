@@ -229,7 +229,8 @@ app.post('/startTotalForSession',(req,res)=>{
 
 app.get('/getQuizId',(req,res)=>
 {
-  score.findOne({}, {}, { sort: { 'created_at' : 1 } }, function(err, post) {
+  console.log('latest user to be found is ',req.query);
+  score.findOne({User:req.query.user},{},{sort:{_id:-1}}, function(err, post) {
   console.log( post );
   res.send(post);
 });
@@ -260,7 +261,7 @@ app.post('/updateScore',(req,res)=>{
 app.get('/getScore',(req,res)=>
 {
   console.log('old score query is ',req.query);
-  score.findOne(function(err,docs){
+  score.findOne({_id:req.query.id},function(err,docs){
     console.log('old score docs',docs);
     res.send(docs);
   })
